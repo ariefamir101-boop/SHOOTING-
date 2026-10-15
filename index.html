@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#10162f">
+  <title>BuildA — Construction Quest</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="BuildA home"><span class="brand-mark">B<span>+</span></span><span>BuildA<small>CONSTRUCTION QUEST</small></span></a>
+    <div class="top-actions"><span class="pill" id="musicStatus">♫ Music ready</span><button class="icon-btn" id="soundBtn" aria-label="Toggle sound">🔊 Sound on</button></div>
+  </header>
+
+  <main>
+    <section id="homeScreen" class="screen home-screen">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> LEARN • AIM • BUILD</div>
+        <h1>Ready to build<br><span>your knowledge?</span></h1>
+        <p class="lead">Enter a colorful construction arena, shoot the right answers, and unlock new zones as you master floors, walls, ceilings and roofs.</p>
+        <div class="learning-card">
+          <div class="learning-icon">🎯</div>
+          <div><strong>Learning mission</strong><p>Identify the basic principles, components and materials used in building construction.</p></div>
+        </div>
+        <div class="hero-buttons"><button class="primary-btn" id="playBtn">▶ Play mission <span>→</span></button><button class="secondary-btn" id="howBtn">How to play</button></div>
+        <div class="mini-stats"><div><strong>10</strong><span>QUESTIONS</span></div><i></i><div><strong>5 min</strong><span>TIME LIMIT</span></div><i></i><div><strong>3</strong><span>LEVELS</span></div></div>
+      </div>
+      <div class="hero-art" aria-label="Illustration of a colorful construction game arena">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="floating-tag tag-floor">▦ FLOOR ZONE</div><div class="floating-tag tag-roof">⌂ ROOF ZONE</div>
+        <div class="construction-scene">
+          <div class="sun"></div><div class="cloud cloud-one"></div><div class="cloud cloud-two"></div>
+          <div class="building building-back"><div class="windows"></div></div>
+          <div class="building building-front"><div class="roof-shape"></div><div class="window-grid"><i></i><i></i><i></i><i></i></div><div class="door"></div></div>
+          <div class="floor-slab"></div><div class="little-player"><span>⌐</span></div>
+          <div class="target target-a">✓</div><div class="target target-b">?</div>
+          <div class="spark spark-a">✦</div><div class="spark spark-b">✧</div>
+        </div>
+        <div class="art-caption"><span class="caption-dot"></span> YOUR NEXT BUILD STARTS HERE</div>
+      </div>
+    </section>
+
+    <section id="instructionsScreen" class="screen instructions-screen hidden">
+      <button class="back-link" id="homeFromHow">← Back to home</button>
+      <div class="eyebrow">QUICK BRIEFING</div><h2>How to play <span>BuildA</span></h2>
+      <p class="section-lead">Aim carefully. Every correct shot brings you closer to becoming a construction champion.</p>
+      <div class="instruction-grid">
+        <article class="instruction-card"><b class="number">01</b><div class="instruction-emoji">🕹️</div><h3>Move around</h3><p>Use <kbd>W A S D</kbd> or the arrow keys to move your builder inside the arena.</p></article>
+        <article class="instruction-card"><b class="number">02</b><div class="instruction-emoji">🎯</div><h3>Aim & shoot</h3><p>Move your mouse to aim, then click or press <kbd>SPACE</kbd> to fire at a moving answer tile.</p></article>
+        <article class="instruction-card"><b class="number">03</b><div class="instruction-emoji">💡</div><h3>Answer the quiz</h3><p>Hit a tile to reveal the question. Then shoot the tile carrying the correct answer.</p></article>
+        <article class="instruction-card"><b class="number">04</b><div class="instruction-emoji">🚀</div><h3>Level up</h3><p>Complete questions to unlock the Floor Lab, Wall Workshop and Roof Deck. Questions get harder each level.</p></article>
+      </div>
+      <div class="rules-strip"><span>⭐ +100 correct</span><span>💥 −25 wrong</span><span>⏱️ 5 minute mission</span><span>🔊 Sound starts after Play</span></div>
+      <button class="primary-btn" id="startFromHow">Got it — let's play <span>→</span></button>
+    </section>
+
+    <section id="gameScreen" class="screen game-screen hidden">
+      <div class="game-heading"><div><div class="eyebrow"><span class="pulse"></span> LIVE MISSION</div><h2>Construction <span>arena</span></h2></div><button class="secondary-btn small-btn" id="quitBtn">✕ Exit mission</button></div>
+      <div class="hud">
+        <div class="hud-item"><span class="hud-icon">🏆</span><div><small>SCORE</small><strong id="scoreValue">0000</strong></div></div>
+        <div class="hud-item progress-hud"><span class="hud-icon">🧱</span><div class="progress-copy"><small>BUILD PROGRESS</small><strong id="progressValue">0 / 10</strong><div class="progress-track"><span id="progressBar"></span></div></div></div>
+        <div class="hud-item"><span class="hud-icon">⏱️</span><div><small>TIME LEFT</small><strong id="timerValue">05:00</strong></div></div>
+        <div class="hud-item level-hud"><span class="hud-icon">🚀</span><div><small>ZONE</small><strong id="levelValue">01 / 03</strong></div></div>
+      </div>
+      <div class="arena-layout">
+        <div class="arena-wrap">
+          <div class="arena-topline"><span><i class="live-dot"></i> <b id="zoneName">FLOOR LAB</b></span><span id="arenaHint">Shoot any moving tile to reveal a question</span></div>
+          <div class="arena" id="arena">
+            <canvas id="gameCanvas" aria-label="Interactive shooting game arena"></canvas>
+            <div class="arena-vignette"></div>
+            <div class="question-panel hidden" id="questionPanel">
+              <div class="question-top"><span id="questionLevel">LEVEL 1 • FLOOR LAB</span><span id="questionCount">QUESTION 1 / 10</span></div>
+              <h3 id="questionText">Question goes here</h3>
+              <p id="questionInstruction">Shoot the tile with the best answer.</p>
+              <div class="answer-chips" id="answerChips"></div>
+            </div>
+            <div class="toast hidden" id="toast"></div>
+            <div class="arena-bottom-hint"><span>WASD / ARROWS <b>MOVE</b></span><span>MOUSE <b>AIM</b></span><span>CLICK / SPACE <b>SHOOT</b></span></div>
+            <div class="pause-overlay hidden" id="pauseOverlay"><div>Ⅱ</div><h3>Mission paused</h3><p>Take a breather, builder.</p><button class="primary-btn" id="resumeBtn">Resume mission</button></div>
+          </div>
+        </div>
+        <aside class="mission-panel">
+          <div class="panel-head"><span>MISSION LOG</span><span class="log-status">● LIVE</span></div>
+          <div class="mission-brief"><div class="brief-icon">📐</div><div><strong id="missionTitle">Floor foundations</strong><p id="missionDesc">Learn the parts that make a floor stable and useful.</p></div></div>
+          <div class="mission-divider"></div>
+          <div class="panel-label">YOUR OBJECTIVES</div>
+          <div class="objective" id="objective1"><span class="objective-check">○</span><span>Identify basic components</span></div>
+          <div class="objective" id="objective2"><span class="objective-check">○</span><span>Choose the correct materials</span></div>
+          <div class="objective" id="objective3"><span class="objective-check">○</span><span>Unlock the next zone</span></div>
+          <div class="mission-divider"></div>
+          <div class="panel-label">BUILDER STATUS</div>
+          <div class="status-row"><span>Accuracy</span><strong id="accuracyValue">—</strong></div>
+          <div class="status-row"><span>Correct answers</span><strong id="correctValue">0</strong></div>
+          <div class="status-row"><span>Lives</span><strong id="livesValue">❤️ ❤️ ❤️</strong></div>
+          <div class="panel-tip"><span>💡</span><p id="tipText">Tip: Floor finishes are the visible surface you walk on.</p></div>
+          <button class="pause-btn" id="pauseBtn">Ⅱ Pause game</button>
+        </aside>
+      </div>
+      <div class="game-footer"><span>BUILDA ACADEMY <b>•</b> LEARN BY DOING</span><span>Progress is saved for this session only</span></div>
+    </section>
+
+    <section id="resultScreen" class="screen result-screen hidden">
+      <div class="result-orb">🏗️</div><div class="eyebrow">MISSION REPORT</div><h2 id="resultTitle">Great work, builder!</h2><p class="section-lead" id="resultSubtitle">You made progress on your construction knowledge.</p>
+      <div class="result-stats"><div><small>FINAL SCORE</small><strong id="finalScore">0000</strong></div><div><small>QUESTIONS SOLVED</small><strong id="finalCorrect">0 / 10</strong></div><div><small>ACCURACY</small><strong id="finalAccuracy">0%</strong></div></div>
+      <div class="result-message" id="resultMessage">Every attempt helps you build stronger knowledge.</div>
+      <div class="result-actions"><button class="primary-btn" id="playAgainBtn">↻ Play again</button><button class="secondary-btn" id="homeBtn">Back to home</button></div>
+    </section>
+  </main>
+  <footer class="site-footer"><span>BuildA <b>×</b> Construction Quest</span><span>Made for curious future interior designers</span></footer>
+  <script src="game.js"></script>
+</body>
+</html>
